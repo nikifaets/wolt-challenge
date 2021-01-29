@@ -1,10 +1,10 @@
 # Byte-compiled / optimized / DLL files
-*
-!NikolayPashovDataScienceAssignment
+
 __pycache__/
 *.py[cod]
 *$py.class
 
+.vscode/
 # C extensions
 *.so
 

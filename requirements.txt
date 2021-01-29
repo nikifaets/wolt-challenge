@@ -1,0 +1,9 @@
+sklearn
+numpy
+pandas
+tensorflow
+autokeras
+torch
+torchvision
+matplotlib
+geopy
