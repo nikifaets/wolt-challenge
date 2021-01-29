@@ -13,6 +13,7 @@ def extract_timestamp(timestamp):
   return int(hour), int(mins)
 
 def add_hours_mins_cols(data):
+
   timestamps = data["TIMESTAMP"]
   hours_arr = np.array(list(map(lambda x: extract_timestamp(x)[0], timestamps)))
   mins_arr = np.array(list(map(lambda x: extract_timestamp(x)[1], timestamps)))
@@ -32,7 +33,6 @@ def extract_coords(data):
     venue_longs = data["VENUE_LONG"].values
 
     coords = np.stack((user_lats, user_longs, venue_lats, venue_longs), axis=1)
-    print(coords.shape)
     return coords
 
 def add_distance_col(data):
@@ -47,7 +47,6 @@ def add_distance_col(data):
                 x[3]), coords))
     )
 
-    print(distances_arr[5:10])
     data.insert(0, "DISTANCES_KM", distances_arr)
 
 def split_data(X, train_split_percentage):
@@ -68,6 +67,7 @@ def extract_timestamp(timestamp):
   return int(hour), int(mins)
 
 def torch_np(np_array, dtype=np.float32):
+    
     return torch.from_numpy(np_array.astype(dtype))
 
 def scatter_all_parameters(y, x):
@@ -83,14 +83,13 @@ def scatter_all_parameters(y, x):
     # - temperature 
     # - estimated delivery in minutes
 
-    col_names = ["ITEM_COUNT", "DISTANCES_KM", "TIMESTAMP_HOURS", "TIMESTAMP_MINUTES",
-                "WIND_SPEED", "PRECIPITATION", "CLOUD_COVERAGE", "TEMPERATURE", 
-                "ESTIMATED_DELIVERY_MINUTES"]
+    col_names = ["ITEM_COUNT", "DISTANCES_KM", "WIND_SPEED", "TEMPERATURE", "ESTIMATED_DELIVERY_MINUTES","TIMESTAMP_HOURS", "TIMESTAMP_MINUTES",
+                "PRECIPITATION", "CLOUD_COVERAGE"]
 
-    fig, axs = plt.subplots(nrows=3, ncols=3, figsize=(15,15))
+    fig, axs = plt.subplots(3,3, figsize=(15,15))
     for i, ax in enumerate(axs.flat):
         
         scatter_x = x[col_names[i]]
         scatter_y = y
         ax.scatter(scatter_x, scatter_y)
-        ax.set_title(col_names[i])
+        ax.set(xlabel=col_names[i], ylabel="Predicted Delivery Time")
